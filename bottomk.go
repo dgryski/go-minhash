@@ -64,6 +64,17 @@ func (m *BottomK) Push(b []byte) {
 	}
 }
 
+// Merge combines the signatures of the second set, creating the signature of their union.
+func (m *BottomK) Merge(m2 *BottomK) {
+
+	for _, v := range *m2.minimums {
+		if v < (*m.minimums)[0] {
+			(*m.minimums)[0] = v
+			heap.Fix(m.minimums, 0)
+		}
+	}
+}
+
 // Signature returns a signature for the set.
 func (m *BottomK) Signature() []uint64 {
 	mins := make(intHeap, len(*m.minimums))

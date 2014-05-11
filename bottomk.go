@@ -41,7 +41,7 @@ func NewBottomK(h hash.Hash64, k int) *BottomK {
 	}
 }
 
-func (m *BottomK) Add(b []byte) {
+func (m *BottomK) Push(b []byte) {
 
 	m.h.Reset()
 	m.h.Write(b)

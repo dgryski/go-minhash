@@ -59,8 +59,8 @@ func (m *BottomK) Push(b []byte) {
 	}
 
 	if i64 < (*m.minimums)[0] {
-		heap.Pop(m.minimums)
-		heap.Push(m.minimums, i64)
+		(*m.minimums)[0] = i64
+		heap.Fix(m.minimums, 0)
 	}
 }
 

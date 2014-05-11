@@ -33,7 +33,7 @@ type BottomK struct {
 	minimums *intHeap
 }
 
-// NewBottomK returns a new BottomK implementation
+// NewBottomK returns a new BottomK implementation.
 func NewBottomK(h hash.Hash64, k int) *BottomK {
 	return &BottomK{
 		size:     k,
@@ -42,7 +42,7 @@ func NewBottomK(h hash.Hash64, k int) *BottomK {
 	}
 }
 
-// Push adds an element to the set
+// Push adds an element to the set.
 func (m *BottomK) Push(b []byte) {
 
 	m.h.Reset()
@@ -64,7 +64,7 @@ func (m *BottomK) Push(b []byte) {
 	}
 }
 
-// Signature returns a signature for the set
+// Signature returns a signature for the set.
 func (m *BottomK) Signature() []uint64 {
 	mins := make(intHeap, len(*m.minimums))
 	copy(mins, *m.minimums)
@@ -72,7 +72,7 @@ func (m *BottomK) Signature() []uint64 {
 	return mins
 }
 
-// Similarity computes an estimate for the similarity between the two sets
+// Similarity computes an estimate for the similarity between the two sets.
 func (m *BottomK) Similarity(m2 *BottomK) float64 {
 
 	if m.size != m2.size {

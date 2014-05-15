@@ -46,6 +46,7 @@ func (h *intHeap) Pop() interface{} {
 	return x
 }
 
+// BottomK is a bottom-k sketch of a set
 type BottomK struct {
 	size     int
 	h        hash.Hash64

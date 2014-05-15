@@ -22,6 +22,7 @@ package minhash
 import (
 	"container/heap"
 	"hash"
+	"math"
 	"sort"
 )
 
@@ -96,6 +97,12 @@ func (m *BottomK) Merge(m2 *BottomK) {
 			heap.Fix(m.minimums, 0)
 		}
 	}
+}
+
+// Cardinality estimates the cardinality of the set
+func (m *BottomK) Cardinality() int {
+	return int(float64(len(*m.minimums)-1) / (float64((*m.minimums)[0]) / float64(math.MaxUint64)))
+
 }
 
 // Signature returns a signature for the set.

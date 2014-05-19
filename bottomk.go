@@ -14,7 +14,7 @@ For more information,
 
     http://www.mpi-inf.mpg.de/~rgemulla/publications/beyer07distinct.pdf
 
-    This package works best when provided with a strong 64-bit hash function, such as CityHash, Spooky, xxHash, or SipHash.
+    This package works best when provided with a strong 64-bit hash function, such as CityHash, Spooky, or SipHash.
 
 */
 package minhash

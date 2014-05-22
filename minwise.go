@@ -1,19 +1,18 @@
 package minhash
 
-import (
-	"hash"
-	"math"
-)
+import "math"
 
 // MinWise is a collection of minimum hashes for a set
 type MinWise struct {
 	minimums []uint64
-	h1       hash.Hash64
-	h2       hash.Hash64
+	h1       Hash64
+	h2       Hash64
 }
 
+type Hash64 func([]byte) uint64
+
 // NewMinWise returns a new MinWise Hashsing implementation
-func NewMinWise(h1, h2 hash.Hash64, size int) *MinWise {
+func NewMinWise(h1, h2 Hash64, size int) *MinWise {
 
 	minimums := make([]uint64, size)
 	for i := range minimums {
@@ -30,13 +29,8 @@ func NewMinWise(h1, h2 hash.Hash64, size int) *MinWise {
 // Push adds an element to the set.
 func (m *MinWise) Push(b []byte) {
 
-	m.h1.Reset()
-	m.h1.Write(b)
-	v1 := m.h1.Sum64()
-
-	m.h2.Reset()
-	m.h2.Write(b)
-	v2 := m.h2.Sum64()
+	v1 := m.h1(b)
+	v2 := m.h2(b)
 
 	for i, v := range m.minimums {
 		hv := v1 + uint64(i)*v2

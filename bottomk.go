@@ -21,7 +21,6 @@ package minhash
 
 import (
 	"container/heap"
-	"hash"
 	"math"
 	"sort"
 )
@@ -49,12 +48,12 @@ func (h *intHeap) Pop() interface{} {
 // BottomK is a bottom-k sketch of a set
 type BottomK struct {
 	size     int
-	h        hash.Hash64
+	h        Hash64
 	minimums *intHeap
 }
 
 // NewBottomK returns a new BottomK implementation.
-func NewBottomK(h hash.Hash64, k int) *BottomK {
+func NewBottomK(h Hash64, k int) *BottomK {
 	return &BottomK{
 		size:     k,
 		h:        h,
@@ -65,9 +64,7 @@ func NewBottomK(h hash.Hash64, k int) *BottomK {
 // Push adds an element to the set.
 func (m *BottomK) Push(b []byte) {
 
-	m.h.Reset()
-	m.h.Write(b)
-	i64 := m.h.Sum64()
+	i64 := m.h(b)
 
 	if i64 == 0 {
 		return

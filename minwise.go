@@ -87,3 +87,67 @@ func (m *MinWise) Similarity(m2 *MinWise) float64 {
 
 	return float64(intersect) / float64(len(m.minimums))
 }
+
+// SignatureBbit returns a b-bit reduction of the signature.  This will result in unused bits at the high-end of the words if b does not divide 64 evenly.
+func (m *MinWise) SignatureBbit(b uint) []uint64 {
+
+	var sig []uint64 // full signature
+	var w uint64     // current word
+	bits := uint(64) // bits free in current word
+
+	mask := uint64(1<<b) - 1
+
+	for _, v := range m.minimums {
+		if bits >= b {
+			w <<= b
+			w |= v & mask
+			bits -= b
+		} else {
+			sig = append(sig, w)
+			w = 0
+			bits = 64
+		}
+	}
+
+	if bits != 64 {
+		sig = append(sig, w)
+	}
+
+	return sig
+}
+
+// SimilarityBbit computes an estimate for the similarity between two b-bit signatures
+func SimilarityBbit(sig1, sig2 []uint64, b uint) float64 {
+
+	if len(sig1) != len(sig2) {
+		panic("signature size mismatch")
+	}
+
+	intersect := 0
+	count := 0
+
+	mask := uint64(1<<b) - 1
+
+	for i := range sig1 {
+		w1 := sig1[i]
+		w2 := sig2[i]
+
+		bits := uint(64)
+
+		for bits >= b {
+			v1 := (w1 & mask)
+			v2 := (w2 & mask)
+
+			count++
+			if v1 == v2 {
+				intersect++
+			}
+
+			bits -= b
+			w1 >>= b
+			w2 >>= b
+		}
+	}
+
+	return float64(intersect) / float64(count)
+}

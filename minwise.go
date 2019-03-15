@@ -26,7 +26,7 @@ func NewMinWise(h1, h2 Hash64, size int) *MinWise {
 	}
 }
 
-// NewMinWise returns a new MinWise Hashing implementation
+// NewMinWiseFromSignatures returns a new MinWise Hashing implementation
 // using a user-provided set of signatures
 func NewMinWiseFromSignatures(h1, h2 Hash64, signatures []uint64) *MinWise {
 
